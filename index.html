@@ -367,12 +367,12 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <p>Arte pintada à mão, com pinceladas de verdade. Escolha uma das nossas ou traga uma referência sua.</p>
         <ul>
           <li>Peças únicas, nunca impressas</li>
-          <li>Tamanho e acabamento combinados com você</li>
+          <li>Cada quadro é personalizado: o orçamento sai pelo tamanho e pela arte</li>
           <li>Feito pensando na sua parede</li>
         </ul>
         <div class="row">
           <a class="btn btn-primary" href="#provador" data-go="quadro">Ver na minha parede</a>
-          <a class="btn btn-ghost" data-wa="Oi, mira! Quero encomendar um quadro feito à mão." href="https://wa.me/559294498445" target="_blank" rel="noopener">Encomendar</a>
+          <a class="btn btn-ghost" data-wa="Oi, mira! Quero um orçamento de quadro feito à mão." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir orçamento</a>
         </div>
       </article>
     </div>
@@ -476,7 +476,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
     <div class="panel">
       <div>
         <h2>Pendure antes de pendurar</h2>
-        <p class="sub">Escolha a arte, o tamanho e a moldura. A sala está em escala real.</p>
+        <p class="sub">Teste a arte, o tamanho e o acabamento na sala em escala real. Depois é só pedir o orçamento.</p>
       </div>
 
       <div class="field">
@@ -517,7 +517,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
       <div class="order">
         <div class="msg" id="quadroMsg"></div>
         <div class="row">
-          <a class="btn btn-wa" id="waQuadro" href="https://wa.me/559294498445" target="_blank" rel="noopener">Enviar pedido no WhatsApp</a>
+          <a class="btn btn-wa" id="waQuadro" href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
           <button class="btn btn-ghost" data-copy="quadroMsg" type="button">Copiar texto</button>
         </div>
         <span class="toast" role="status"></span>
@@ -544,7 +544,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
     <div class="steps">
       <div class="step"><div class="n"><span>1</span></div><h3>Monte aqui</h3><p>Teste suas fotos e artes no provador até ficar do seu jeito.</p></div>
       <div class="step"><div class="n"><span>2</span></div><h3>Chame no WhatsApp</h3><p>O pedido vai pronto. Depois é só mandar as fotos originais na conversa.</p></div>
-      <div class="step"><div class="n"><span>3</span></div><h3>A gente faz à mão</h3><p>Confirmamos valores e prazo com você e produzimos cada peça com cuidado.</p></div>
+      <div class="step"><div class="n"><span>3</span></div><h3>A gente faz à mão</h3><p>Ímãs com preço por quantidade, quadros com orçamento sob medida. Combinado o prazo, produzimos cada peça com cuidado.</p></div>
     </div>
   </section>
 
@@ -724,7 +724,7 @@ function renderQuadro(){renderGallery();
   artImg.src=Q.art===-1?Q.custom:artSrc[Q.art];
   document.getElementById('measureTxt').textContent=w+' × '+h+' cm';
   const name=Q.art===-1?'Sua arte':REAL[Q.art].name;document.getElementById('artTitle').textContent=Q.art===-1?'Sua imagem como referência':'“'+name+'” · pintado pela mira';
-  document.getElementById('quadroMsg').textContent=(Q.art===-1?`Oi, mira! Quero um quadro feito à mão a partir de uma imagem minha`:`Oi, mira! Quero um quadro no estilo "${name}"`)+
+  document.getElementById('quadroMsg').textContent=(Q.art===-1?`Oi, mira! Quero um orçamento de quadro feito à mão a partir de uma imagem minha`:`Oi, mira! Quero um orçamento de quadro no estilo "${name}"`)+
     `, ${SIZES[Q.size][0]} × ${SIZES[Q.size][1]} cm, ${Q.orient}, ${frameName(Q.frame)}.\nMinha parede é ${WALLS[Q.wall][0].toLowerCase()}.`+(Q.art===-1?`\nVou mandar a imagem aqui na conversa.`:'');
   document.getElementById('waQuadro').href=waLink(document.getElementById('quadroMsg').textContent)}
 function sizeRoom(){const w=room.clientWidth;if(w)room.style.setProperty('--cm',(w/260)+'px')}
