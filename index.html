@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="mira criativos: foto ímãs e quadros pintados à mão. Teste suas fotos no provador e encomende pelo WhatsApp.">
 <title>Mira Criativos</title>
+<link rel="icon" href="favicon.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,11 +44,10 @@ button,input,select{font:inherit;color:inherit}
 /* header */
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-.logo{width:56px;height:56px;border-radius:50%;padding:3px;background:var(--ring);flex:none}
-.logo span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#F2E4D4;border:2px solid var(--bg);
-  font-family:var(--f-display);font-weight:600;font-size:17px;color:#5B2A0F;letter-spacing:-.01em;font-variation-settings:"SOFT" 100}
+.logo{width:64px;height:64px;border-radius:50%;display:block;flex:none;transition:transform .3s}
+.brand:hover .logo{transform:rotate(-8deg)}
+.logo-foot{width:72px;height:72px;border-radius:50%;display:block}
 .dot{color:var(--ember)}
-.logo .dot{color:#D9661A}
 .brand-name{font-family:var(--f-display);font-size:15px;color:var(--muted);line-height:1.2}
 .brand-name b{display:block;color:var(--cocoa);font-size:18px;font-weight:600}
 nav{display:flex;gap:6px;flex-wrap:wrap}
@@ -313,7 +313,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 <div class="wrap">
   <header>
     <a class="brand" href="#provador" aria-label="mira. início">
-      <div class="logo"><span>mira<b class="dot">.</b></span></div>
+      <img class="logo" src="logo.png" alt="mira." width="64" height="64">
       <div class="brand-name"><b>mira criativos</b>feito à mão</div>
     </a>
     <nav aria-label="Seções">
@@ -560,7 +560,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
   </section>
 
   <footer>
-    <span class="big">mira<span class="dot">.</span></span>
+    <img class="logo-foot" src="logo.png" alt="mira." width="72" height="72">
     <div class="foot-links">
       <span>Foto ímãs e quadros feitos à mão</span>
       <a class="ig" href="https://www.instagram.com/mira_criativos/" target="_blank" rel="noopener" aria-label="Instagram @mira_criativos"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></a>
