@@ -336,6 +336,9 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
   .tier h3{flex:1 1 auto;font-size:19px}.tier .price{font-size:30px;margin:0}.tier .qty{display:none}.tier .per{flex-basis:100%}
   .tier.on{transform:none}}
 
+.pay{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
+.pay span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--cocoa);background:var(--chip);border-radius:999px;padding:6px 12px}
+.pay svg{width:15px;height:15px}
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
 .fab svg{width:28px;height:28px}
@@ -597,7 +600,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
   <section class="sec" id="precos">
     <span class="eyebrow">preços dos ímãs</span>
     <h2>Quanto mais ímãs, menos você paga<span class="dot">.</span></h2>
-    <p class="lead">Ímãs de 5 × 5 cm. O preço de cada um cai conforme a quantidade. Quadros são personalizados e saem por orçamento.</p>
+    <p class="lead">Ímãs de 5 × 5 cm. O preço de cada um cai conforme a quantidade, e dá pra pagar no Pix ou parcelar no crédito. Quadros são personalizados e saem por orçamento.</p>
     <div class="tiercards">
       <article class="tier" data-min="1"><span class="qty">quantidade</span><h3>1 a 10</h3><span class="price"><small>R$</small>12</span><span class="per">por ímã</span></article>
       <article class="tier" data-min="11"><span class="qty">quantidade</span><h3>11 a 20</h3><span class="price"><small>R$</small>11</span><span class="per">por ímã</span></article>
@@ -624,6 +627,10 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <span class="label">Você paga</span>
         <span class="total" id="qTotal"><small>R$</small>120</span>
         <span class="breakdown" id="qBreak">10 ímãs × R$ 12</span>
+        <div class="pay" aria-label="Formas de pagamento">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"/></svg>Pix</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Crédito parcelado</span>
+        </div>
         <p class="nudge" id="qNudge"></p>
         <a class="btn btn-wa" id="qWa" href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
       </div>
@@ -677,14 +684,14 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
     <div class="steps">
       <div class="step"><div class="n"><span>1</span></div><h3>Monte aqui</h3><p>Teste suas fotos e artes no provador até ficar do seu jeito.</p></div>
       <div class="step"><div class="n"><span>2</span></div><h3>Chame no WhatsApp</h3><p>O pedido vai pronto. Depois é só mandar as fotos originais na conversa.</p></div>
-      <div class="step"><div class="n"><span>3</span></div><h3>A gente faz à mão</h3><p>Ímãs com preço por quantidade, quadros com orçamento sob medida. Combinado o prazo, produzimos cada peça com cuidado.</p></div>
+      <div class="step"><div class="n"><span>3</span></div><h3>A gente faz à mão</h3><p>Ímãs com preço por quantidade, quadros com orçamento sob medida. Você paga no Pix ou parcela no cartão de crédito pelo link da InfinitePay, e a gente produz cada peça com cuidado.</p></div>
     </div>
   </section>
 
   <section class="cta">
     <div>
       <h2>Bora fazer o seu<span style="color:var(--ember)">?</span></h2>
-      <p>Encomendas pelo WhatsApp <span class="num">+55 92 9449-8445</span>. Novidades e peças prontas no Instagram.</p>
+      <p>Encomendas pelo WhatsApp <span class="num">+55 92 9449-8445</span>. Pagamento no Pix ou parcelado no cartão de crédito. Novidades e peças prontas no Instagram.</p>
     </div>
     <div class="row">
       <a class="btn btn-wa" data-wa="Oi, mira! Vim pelo site e quero fazer uma encomenda." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
