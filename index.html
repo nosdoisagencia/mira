@@ -339,6 +339,9 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 .pay{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:4px}
 .pay span{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--cocoa);background:var(--chip);border-radius:999px;padding:6px 12px}
 .pay svg{width:15px;height:15px}
+.card-total{font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:6px}
+.card-total b{font-family:var(--f-display);font-size:20px;color:var(--cocoa)}
+.card-total small{color:var(--muted);font-size:13px}
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
 .fab svg{width:28px;height:28px}
@@ -629,9 +632,9 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <span class="breakdown" id="qBreak">10 ímãs × R$ 12</span>
         <div class="pay" aria-label="Formas de pagamento">
           <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"/></svg>Pix</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Crédito parcelado</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Cartão de crédito</span>
         </div>
-        <span class="breakdown" style="font-size:13px">No crédito, há acréscimo de juros da maquininha.</span>
+        <span class="card-total" id="qCard"></span>
         <p class="nudge" id="qNudge"></p>
         <a class="btn btn-wa" id="qWa" href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
       </div>
@@ -901,12 +904,14 @@ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',(
 /* ---------- ímãs já produzidos (fotos reais entram aqui) ---------- */
 
 /* ---------- calculadora de preço ---------- */
+const CARD_FEE=0.0325; /* taxa do cartão repassada ao cliente: R$ 0,65 em R$ 20 */
 (function(){const q=document.getElementById('qty'),minus=document.getElementById('qMinus'),plus=document.getElementById('qPlus');
  const tiers=[...document.querySelectorAll('.tier')];const steps=[11,21,50,100];
  function set(n){n=Math.max(1,Math.min(999,Math.round(+n)||1));q.value=n;minus.disabled=n<=1;
   const u=unitPrice(n),t=n*u;
   document.getElementById('qTotal').innerHTML='<small>R$</small>'+t.toLocaleString('pt-BR');
   document.getElementById('qBreak').textContent=`${n} ${n>1?'ímãs':'ímã'} × R$ ${u} cada`;
+  const card=Math.ceil(t*(1+CARD_FEE)*100)/100;document.getElementById('qCard').innerHTML=`No cartão de crédito: <b>R$ ${card.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</b> <small>(acréscimo de ${String(CARD_FEE*100).replace('.',',')}% de juros)</small>`;
   const next=steps.find(s=>s>n);let nudge='';
   if(next){const nt=next*unitPrice(next),miss=next-n;
     nudge=nt<=t?`Com ${next} ímãs você paga R$ ${nt.toLocaleString('pt-BR')}, menos do que agora.`:`${miss>1?'Faltam':'Falta'} ${miss} ${miss>1?'ímãs':'ímã'} para cada um sair por R$ ${unitPrice(next)}.`}
