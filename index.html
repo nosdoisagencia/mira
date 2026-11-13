@@ -345,6 +345,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 .paytoggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--chip);padding:5px;border-radius:20px;margin-top:6px}
 .pt{border:0;background:transparent;border-radius:16px;line-height:1.2;padding:10px 12px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .pt svg{width:16px;height:16px}
+.parc{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg);font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .pt[aria-pressed="true"]{background:var(--cocoa);color:var(--bg)}
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
@@ -639,6 +640,10 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <span class="label" id="qLabel" style="margin-top:14px">Você paga no Pix</span>
         <span class="total" id="qTotal"><small>R$</small>120</span>
         <span class="breakdown" id="qBreak">10 ímãs × R$ 12</span>
+        <div id="cardOpts" class="field" hidden style="margin-top:8px">
+          <label class="label" for="qParc">Parcelas</label>
+          <select id="qParc" class="parc"></select>
+        </div>
         <span class="card-total" id="qCard" hidden></span>
         <p class="nudge" id="qNudge"></p>
         <a class="btn btn-wa" id="qWa" href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
@@ -910,17 +915,23 @@ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',(
 
 /* ---------- calculadora de preço ---------- */
 let payMode='pix';
-const CARD_FEE=0.0325; /* taxa do cartão repassada ao cliente: R$ 0,65 em R$ 20 */
+/* taxas da maquininha (InfinitePay) repassadas ao cliente, em % por número de parcelas.
+   1x = 3,25% (conta da mira: R$ 0,65 em R$ 20). 2x a 12x = tabela pública da InfinitePay, faixa até R$ 20 mil/mês, Visa/Master. */
+const RATES=[3.25,5.39,6.12,6.85,7.57,8.28,8.99,9.69,10.38,11.06,11.74,12.40];
+let parc=1;
 (function(){const q=document.getElementById('qty'),minus=document.getElementById('qMinus'),plus=document.getElementById('qPlus');
  const tiers=[...document.querySelectorAll('.tier')];const steps=[11,21,50,100];
  function set(n){n=Math.max(1,Math.min(999,Math.round(+n)||1));q.value=n;minus.disabled=n<=1;
   const u=unitPrice(n),t=n*u;
   document.getElementById('qBreak').textContent=`${n} ${n>1?'ímãs':'ímã'} × R$ ${u} cada`;
-  const card=Math.ceil(t*(1+CARD_FEE)*100)/100,fee=String(CARD_FEE*100).replace('.',','),money=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
-  const isCard=payMode==='card',pay=isCard?card:t;
+  const money=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2}),cents=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const each=k=>Math.ceil(t/(1-RATES[k-1]/100)/k*100)/100,cardTot=k=>Math.round(each(k)*k*100)/100;
+  const isCard=payMode==='card',tot=cardTot(parc),per=each(parc);
   document.getElementById('qLabel').textContent=isCard?'Você paga no cartão de crédito':'Você paga no Pix';
-  document.getElementById('qTotal').innerHTML='<small>R$</small>'+(isCard?card.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):money(t));
-  const qc=document.getElementById('qCard');qc.hidden=!isCard;qc.innerHTML=`R$ ${money(t)} + <b>${fee}%</b> de juros da maquininha. <small>No Pix sai R$ ${money(t)}.</small>`;
+  document.getElementById('qTotal').innerHTML=isCard?(parc>1?`<small>${parc}x de R$</small>${cents(per)}`:`<small>R$</small>${cents(tot)}`):`<small>R$</small>${money(t)}`;
+  const sel=document.getElementById('qParc');sel.innerHTML=RATES.map((r,i)=>{const k=i+1;return `<option value="${k}"${k===parc?' selected':''}>${k}x de R$ ${cents(each(k))}${k===1?' à vista':''}</option>`}).join('');
+  document.getElementById('cardOpts').hidden=!isCard;
+  const qc=document.getElementById('qCard');qc.hidden=!isCard;qc.innerHTML=`Total no cartão: <b>R$ ${cents(tot)}</b> <small>(cobre a taxa de ${String(RATES[parc-1]).replace('.',',')}% da maquininha. No Pix sai R$ ${money(t)}.)</small>`;
   document.querySelectorAll('.paytoggle .pt').forEach(x=>x.setAttribute('aria-pressed',x.dataset.pay===payMode));
   const next=steps.find(s=>s>n);let nudge='';
   if(next){const nt=next*unitPrice(next),miss=next-n;
@@ -930,8 +941,9 @@ const CARD_FEE=0.0325; /* taxa do cartão repassada ao cliente: R$ 0,65 em R$ 20
   const on=tiers.filter(el=>+el.dataset.min<=n).pop();tiers.forEach(el=>el.classList.toggle('on',el===on));
   document.querySelectorAll('#qChips .chip').forEach(c=>c.setAttribute('aria-pressed',+c.dataset.q===n));
   const wa=document.getElementById('qWa');wa.textContent=`Pedir ${n} ${n>1?'ímãs':'ímã'} no WhatsApp`;
-  wa.href=waLink(`Oi, mira! Quero ${n} foto ${n>1?'ímãs':'ímã'} (${n} × R$ ${u} = R$ ${money(t)}).\nPagamento: ${isCard?`cartão de crédito, R$ ${card.toLocaleString('pt-BR',{minimumFractionDigits:2})} com juros`:'Pix'}.`)}
+  wa.href=waLink(`Oi, mira! Quero ${n} foto ${n>1?'ímãs':'ímã'} (${n} × R$ ${u} = R$ ${money(t)}).\nPagamento: ${isCard?`cartão de crédito em ${parc}x de R$ ${cents(per)} (total R$ ${cents(tot)})`:'Pix'}.`)}
  document.querySelectorAll('.paytoggle .pt').forEach(x=>x.onclick=()=>{payMode=x.dataset.pay;set(q.value)});
+ document.getElementById('qParc').addEventListener('change',e=>{parc=+e.target.value;set(q.value)});
  minus.onclick=()=>set(+q.value-1);plus.onclick=()=>set(+q.value+1);
  q.addEventListener('input',()=>{if(q.value!=='')set(q.value)});q.addEventListener('blur',()=>set(q.value));
  document.querySelectorAll('#qChips .chip').forEach(c=>c.onclick=()=>set(c.dataset.q));
