@@ -916,8 +916,8 @@ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',(
 /* ---------- calculadora de preço ---------- */
 let payMode='pix';
 /* taxas da maquininha (InfinitePay) repassadas ao cliente, em % por número de parcelas.
-   1x = 3,25% (conta da mira: R$ 0,65 em R$ 20). 2x a 12x = tabela pública da InfinitePay, faixa até R$ 20 mil/mês, Visa/Master. */
-const RATES=[3.25,5.39,6.12,6.85,7.57,8.28,8.99,9.69,10.38,11.06,11.74,12.40];
+   Conferido com a maquininha da mira: R$ 120 à vista = R$ 123,91; em 12x = R$ 136,99. Total = valor / (1 - taxa), arredondado para cima. */
+const RATES=[3.15,5.39,6.12,6.85,7.57,8.28,8.99,9.69,10.38,11.06,11.74,12.40];
 let parc=1;
 (function(){const q=document.getElementById('qty'),minus=document.getElementById('qMinus'),plus=document.getElementById('qPlus');
  const tiers=[...document.querySelectorAll('.tier')];const steps=[11,21,50,100];
@@ -925,7 +925,7 @@ let parc=1;
   const u=unitPrice(n),t=n*u;
   document.getElementById('qBreak').textContent=`${n} ${n>1?'ímãs':'ímã'} × R$ ${u} cada`;
   const money=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2}),cents=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  const each=k=>Math.ceil(t/(1-RATES[k-1]/100)/k*100)/100,cardTot=k=>Math.round(each(k)*k*100)/100;
+  const cardTot=k=>Math.ceil(Math.round(t/(1-RATES[k-1]/100)*1e6)/1e4)/100,each=k=>Math.round(cardTot(k)/k*100)/100;
   const isCard=payMode==='card',tot=cardTot(parc),per=each(parc);
   document.getElementById('qLabel').textContent=isCard?'Você paga no cartão de crédito':'Você paga no Pix';
   document.getElementById('qTotal').innerHTML=isCard?(parc>1?`<small>${parc}x de R$</small>${cents(per)}`:`<small>R$</small>${cents(tot)}`):`<small>R$</small>${money(t)}`;
