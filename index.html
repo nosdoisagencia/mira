@@ -273,6 +273,33 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 .cta .row{position:relative;z-index:1}
 .btn-light{background:var(--bg);color:var(--cocoa)}
 
+
+/* pricing */
+.kits{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:34px}
+.kit{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:24px;padding:24px 22px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.kit.star{border-color:var(--ember);box-shadow:var(--shadow)}
+.kit .tag{position:absolute;top:-12px;left:20px;background:var(--ember);color:#fff;font-size:12px;font-weight:600;padding:3px 11px;border-radius:999px;letter-spacing:.02em}
+.kit h3{margin:0;font-family:var(--f-display);font-weight:600;font-size:24px;color:var(--cocoa)}
+.kit .qty{color:var(--muted);font-size:15px}
+.kit .price{font-family:var(--f-display);font-weight:600;font-size:44px;line-height:1;color:var(--cocoa);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-top:8px}
+.kit .price small{font-size:18px;font-weight:500;margin-right:2px}
+.kit .per{font-size:14px;color:var(--muted)}
+.kit p{margin:4px 0 0;font-size:15px}
+.kit .btn{margin-top:auto}
+.kit .spacer{flex:1;min-height:8px}
+.atacado{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:center;background:var(--chip);border-radius:28px;padding:30px}
+.atacado h3{margin:0 0 8px;font-family:var(--f-display);font-weight:600;font-size:28px;color:var(--cocoa);letter-spacing:-.01em}
+.atacado p{margin:0 0 16px;color:var(--muted);max-width:40ch}
+.tiers{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;background:var(--surface);border-radius:18px;overflow:hidden}
+.tiers th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600;padding:14px 18px;border-bottom:1px solid var(--line)}
+.tiers td{padding:13px 18px;border-bottom:1px solid var(--line)}
+.tiers tr:last-child td{border-bottom:0}
+.tiers td:last-child,.tiers th:last-child{text-align:right}
+.tiers td b{font-family:var(--f-display);font-size:20px;color:var(--cocoa)}
+.est{font-family:var(--f-display);font-size:26px;font-weight:600;color:var(--cocoa);font-variant-numeric:tabular-nums}
+@media (max-width:900px){.kits{grid-template-columns:repeat(2,minmax(0,1fr))}.atacado{grid-template-columns:1fr;padding:22px}}
+@media (max-width:440px){.kits{grid-template-columns:1fr}.tiers th,.tiers td{padding:11px 12px}}
+
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
 .fab svg{width:28px;height:28px}
@@ -318,6 +345,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
     </a>
     <nav aria-label="Seções">
       <a href="#produtos">Produtos</a>
+      <a href="#precos">Preços</a>
       <a href="#provador" data-go="ima">Provador</a>
       <a href="#como-pedir">Como pedir</a>
     </nav>
@@ -354,7 +382,7 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <ul>
           <li>Feitos a partir das suas fotos</li>
           <li>Ótimos para presente e lembrancinha</li>
-          <li>Pedidos de uma unidade ou em kits</li>
+          <li>Kits a partir de R$ 45 e preço de atacado</li>
         </ul>
         <div class="row">
           <a class="btn btn-primary" href="#provador" data-go="ima">Ver com minhas fotos</a>
@@ -446,9 +474,10 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <p id="imaSummary"></p>
         <div class="msg" id="imaMsg"></div>
         <div class="row">
-          <a class="btn btn-wa" id="waIma" href="https://wa.me/559294498445" target="_blank" rel="noopener">Enviar pedido no WhatsApp</a>
+          <button class="btn btn-wa" id="sendIma" type="button">Enviar minhas fotos no WhatsApp</button>
           <button class="btn btn-ghost" data-copy="imaMsg" type="button">Copiar texto</button>
         </div>
+        <p class="hint">Suas fotos vão já recortadas do jeito que você montou aqui, junto com o pedido. No celular, é só escolher a conversa da mira no WhatsApp.</p>
         <span class="toast" role="status"></span>
       </div>
     </div>
@@ -525,6 +554,57 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
     </div>
   </section>
 
+  </section>
+
+  <section class="sec" id="precos">
+    <span class="eyebrow">preços dos ímãs</span>
+    <h2>Escolha seu kit<span class="dot">.</span></h2>
+    <p class="lead">Quanto mais ímãs, menor o preço de cada um. Quadros são personalizados e saem por orçamento.</p>
+    <div class="kits">
+      <article class="kit">
+        <h3>Avulso</h3><span class="qty">1 ímã</span>
+        <span class="price"><small>R$</small>12</span><span class="per">um carinho rápido</span>
+        <p>Pra testar ou dar uma lembrança pequena.</p><span class="spacer"></span>
+        <a class="btn btn-ghost" data-wa="Oi, mira! Quero 1 foto ímã avulso (R$ 12)." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir este kit</a>
+      </article>
+      <article class="kit">
+        <h3>Mini</h3><span class="qty">4 ímãs</span>
+        <span class="price"><small>R$</small>45</span><span class="per">R$ 11,25 cada</span>
+        <p>Presente de aniversário, casal, amizade.</p><span class="spacer"></span>
+        <a class="btn btn-ghost" data-wa="Oi, mira! Quero o Kit Mini: 4 foto ímãs por R$ 45." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir este kit</a>
+      </article>
+      <article class="kit star"><span class="tag">ideal pra presentear</span>
+        <h3>Mural</h3><span class="qty">10 ímãs</span>
+        <span class="price"><small>R$</small>110</span><span class="per">R$ 11,00 cada</span>
+        <p>Dá pra contar uma história inteira na geladeira.</p><span class="spacer"></span>
+        <a class="btn btn-wa" data-wa="Oi, mira! Quero o Kit Mural: 10 foto ímãs por R$ 110." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir este kit</a>
+      </article>
+      <article class="kit">
+        <h3>Álbum</h3><span class="qty">20 ímãs</span>
+        <span class="price"><small>R$</small>200</span><span class="per">R$ 10,00 cada</span>
+        <p>Gravidez, primeiro ano do bebê, viagens, o ano todo.</p><span class="spacer"></span>
+        <a class="btn btn-ghost" data-wa="Oi, mira! Quero o Kit Álbum: 20 foto ímãs por R$ 200." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir este kit</a>
+      </article>
+    </div>
+    <div class="atacado">
+      <div>
+        <h3>Lembrancinhas e atacado</h3>
+        <p>Casamentos, chás, batizados e brindes de empresa. Para quantidades maiores, o preço por ímã cai.</p>
+        <a class="btn btn-wa" data-wa="Oi, mira! Quero um orçamento de foto ímãs no atacado / lembrancinhas." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir orçamento de atacado</a>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tiers">
+          <thead><tr><th>Quantidade</th><th>Preço por ímã</th></tr></thead>
+          <tbody>
+            <tr><td>1 a 10</td><td><b>R$ 12</b></td></tr>
+            <tr><td>11 a 20</td><td><b>R$ 11</b></td></tr>
+            <tr><td>21 a 49</td><td><b>R$ 10</b></td></tr>
+            <tr><td>50 a 99</td><td><b>R$ 9</b></td></tr>
+            <tr><td>100 ou mais</td><td><b>R$ 8</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </section>
 
   <section class="sec">
@@ -624,7 +704,7 @@ function samplePhoto(kind){const [c,ctx]=canvas(500,500);const r=rng(kind*31+3);
     ctx.fillStyle='#5B2A0F';ctx.beginPath();ctx.arc(x,y,s*.25,0,7);ctx.fill()}}
   grain(ctx,500,500,r);return c.toDataURL('image/jpeg',.88)}
 
-function loadFile(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const m=1400,s=Math.min(1,m/Math.max(im.width,im.height));
+function loadFile(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const m=2400,s=Math.min(1,m/Math.max(im.width,im.height));
   const [c,ctx]=canvas(Math.round(im.width*s),Math.round(im.height*s));ctx.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.88))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
 
 /* ---------- tabs ---------- */
@@ -653,7 +733,7 @@ function renderEditor(){const m=magnets[sel];
   if(!m){editorFrame.innerHTML='';updateImaOrder();return}
   editorFrame.innerHTML=`<div class="mag fmt-${m.fmt}">${magHTML(m)}</div>`;
   document.getElementById('zoom').value=m.zoom;updateImaOrder()}
-function refreshSel(){const m=magnets[sel];const el=door.children[sel];if(el)el.innerHTML=magHTML(m);const e2=editorFrame.querySelector('.mag');if(e2)e2.innerHTML=magHTML(m)}
+function refreshSel(){schedulePrep();const m=magnets[sel];const el=door.children[sel];if(el)el.innerHTML=magHTML(m);const e2=editorFrame.querySelector('.mag');if(e2)e2.innerHTML=magHTML(m)}
 function renderAll(){renderDoor();renderEditor()}
 
 function dragMag(el,i){let sx,sy,ox,oy,moved=false;
@@ -684,10 +764,30 @@ document.getElementById('fileIma').addEventListener('change',e=>{addFiles(e.targ
 const drop=document.getElementById('dropIma');['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('drag')}));
 ['dragleave','drop'].forEach(t=>drop.addEventListener(t,()=>drop.classList.remove('drag')));drop.addEventListener('drop',e=>{e.preventDefault();addFiles(e.dataTransfer.files)});
 
+function priceFor(n){const kits={1:12,4:45,10:110,20:200};if(kits[n])return kits[n];return n*(n>=100?8:n>=50?9:n>=21?10:n>=11?11:12)}
+function brl(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2})}
 function updateImaOrder(){const n=magnets.length;
-  document.getElementById('imaSummary').innerHTML=n?`<b>${n} ${n>1?'ímãs':'ímã'}</b> na sua geladeira`+(samples?' (exemplos)':''):'Adicione fotos para montar seu pedido.';
-  document.getElementById('imaMsg').textContent=n?`Oi, mira! Montei ${n} foto ${n>1?'ímãs':'ímã'} no provador do site e quero encomendar.\nVou mandar as fotos aqui na conversa.`:'—';
-  document.getElementById('waIma').href=waLink(n?document.getElementById('imaMsg').textContent:'Oi, mira! Quero encomendar foto ímãs.')}
+  document.getElementById('imaSummary').innerHTML=n?`<b>${n} ${n>1?'ímãs':'ímã'}</b> na sua geladeira`+(samples?' (exemplos)':'')+`<br><span class="est">${brl(priceFor(n))}</span> <span class="hint">valor estimado</span>`:'Adicione fotos para montar seu pedido.';
+  document.getElementById('imaMsg').textContent=n?`Oi, mira! Montei ${n} foto ${n>1?'ímãs':'ímã'} no provador do site (valor estimado ${brl(priceFor(n))}).\nSeguem as fotos já enquadradas para o orçamento.`:'—';
+  schedulePrep()}
+
+/* fotos recortadas como a pessoa montou, prontas para enviar */
+function cropMag(m,i){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>{const S=1200,[c,ctx]=canvas(S,S);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S);
+  const k=S/Math.min(img.width,img.height),w=img.width*k,h=img.height*k,ox=(S-w)*m.px/100,oy=(S-h)*m.py/100,tx=S*m.px/100,ty=S*m.py/100,z=m.zoom/100;
+  ctx.translate(tx,ty);ctx.scale(z,z);ctx.translate(-tx,-ty);ctx.drawImage(img,ox,oy,w,h);
+  c.toBlob(b=>b?res(new File([b],`mira-ima-${i+1}.jpg`,{type:'image/jpeg'})):rej(),'image/jpeg',.92)};img.onerror=rej;img.src=m.src})}
+let prepared=null,prepTimer=null,prepRun=0;
+function prep(){const run=++prepRun;if(samples||!magnets.length){prepared=null;return Promise.resolve(null)}
+  return Promise.all(magnets.map(cropMag)).then(f=>{if(run===prepRun)prepared=f;return f}).catch(()=>null)}
+function schedulePrep(){prepared=null;clearTimeout(prepTimer);prepTimer=setTimeout(prep,500)}
+document.getElementById('sendIma').addEventListener('click',async e=>{const toast=e.target.closest('.order').querySelector('.toast');
+  if(samples||!magnets.length){toast.textContent='Adicione suas fotos primeiro. As da geladeira agora são só exemplos.';document.getElementById('fileIma').focus();return}
+  const text=document.getElementById('imaMsg').textContent;const files=prepared||await prep();
+  if(files&&navigator.canShare&&navigator.canShare({files})){try{await navigator.share({files,text});toast.textContent='Agora é só escolher a conversa da mira no WhatsApp e enviar.';return}catch(err){if(err&&err.name==='AbortError')return}}
+  if(files){files.forEach((f,i)=>setTimeout(()=>{const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;document.body.appendChild(a);a.click();a.remove()},i*250))}
+  window.open(waLink(text+'\n(Vou anexar as fotos na conversa.)'),'_blank','noopener');
+  toast.textContent=files?`Baixamos ${files.length} ${files.length>1?'fotos':'foto'} já recortadas. Anexe na conversa do WhatsApp que abriu.`:'Abrimos o WhatsApp. Anexe suas fotos na conversa.'});
 
 /* ---------- QUADROS ---------- */
 const room=document.getElementById('room'),art=document.getElementById('art'),artImg=document.getElementById('artImg');
