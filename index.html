@@ -347,6 +347,20 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 .pt svg{width:16px;height:16px}
 .parc{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--bg);font-size:15px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .pt[aria-pressed="true"]{background:var(--cocoa);color:var(--bg)}
+/* caixa de presente da calculadora */
+.giftwrap{margin-top:20px;display:flex;flex-direction:column;gap:8px;max-width:440px}
+.giftbox{position:relative;aspect-ratio:4/3;width:100%;max-width:100%;border-radius:18px;background:#3E5B3F;padding:12px;
+  box-shadow:inset 0 0 0 5px #33503A,inset 0 12px 22px rgba(0,0,0,.35),0 20px 30px -18px rgba(0,0,0,.55)}
+.giftbox .tissue{position:absolute;inset:12px;border-radius:10px;background:
+  linear-gradient(160deg,rgba(255,255,255,.9),rgba(236,231,222,.95)),repeating-linear-gradient(115deg,transparent 0 22px,rgba(0,0,0,.03) 22px 24px)}
+.giftbox .slots{position:absolute;inset:12px;display:grid;justify-content:center;align-content:center;gap:var(--g,6px);padding:10px}
+.mi{width:var(--s);height:var(--s);border-radius:14%;background:#1d1a18;padding:3%;box-shadow:0 3px 6px rgba(0,0,0,.28);position:relative}
+.mi i{display:block;width:100%;height:100%;border-radius:12%;background-size:cover;background-position:center;position:relative;overflow:hidden}
+.mi i::after{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.4),rgba(255,255,255,.06) 32%,transparent 50%)}
+.mi.drop{animation:drop .5s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes drop{from{transform:translateY(-60px) rotate(-14deg) scale(.6);opacity:0}to{transform:none;opacity:1}}
+.giftbox .more{position:absolute;right:-10px;top:-12px;background:var(--ember);color:#fff;font-weight:700;font-size:14px;border-radius:999px;padding:5px 11px;box-shadow:0 6px 12px -6px rgba(0,0,0,.5);font-variant-numeric:tabular-nums}
+.giftcap{font-family:var(--f-hand);font-size:22px;color:var(--cocoa);line-height:1.1}
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
 .fab svg{width:28px;height:28px}
@@ -629,6 +643,10 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <div class="chips" id="qChips">
           <button class="chip" type="button" data-q="1">1</button><button class="chip" type="button" data-q="4">4</button><button class="chip" type="button" data-q="10">10</button><button class="chip" type="button" data-q="20">20</button><button class="chip" type="button" data-q="30">30</button><button class="chip" type="button" data-q="50">50</button><button class="chip" type="button" data-q="100">100</button>
         </div>
+        <div class="giftwrap">
+          <div class="giftbox" id="giftbox" aria-hidden="true"><div class="tissue"></div><div class="slots" id="slots"></div><span class="more" id="boxMore" hidden></span></div>
+          <span class="giftcap" id="boxCap">10 ímãs na caixa</span>
+        </div>
         <p class="calc-note">Lembrancinhas de festa e brindes de empresa entram aqui também.</p>
       </div>
       <div class="calc-r" aria-live="polite">
@@ -793,6 +811,7 @@ const door=document.getElementById('door'),editorFrame=document.getElementById('
 let magnets=[],sel=0,samples=true,uid=0,zTop=10;
 function mk(src,fmt,x,y,rot,cap){return {id:++uid,src,fmt,x,y,rot,cap:cap||'',zoom:100,px:50,py:50}}
 magnets=[mk(samplePhoto(0),'ima',16,10,-4),mk(samplePhoto(1),'ima',52,8,3),mk(samplePhoto(2),'ima',22,42,2),mk(samplePhoto(1),'ima',58,40,-3),mk(samplePhoto(0),'ima',38,68,4)];
+const SAMPLE_SRC=magnets.slice(),SAMPLE_UNIQ=SAMPLE_SRC.filter((m,i,arr)=>arr.findIndex(x=>x.src===m.src)===i);
 magnets[3].zoom=150;magnets[3].px=30;magnets[4].zoom=170;magnets[4].py=70;
 
 function magHTML(m){return `<div class="ph"><img src="${m.src}" alt="" style="object-position:${m.px}% ${m.py}%;transform:scale(${m.zoom/100});transform-origin:${m.px}% ${m.py}%"></div>`}
@@ -938,12 +957,28 @@ let parc=1;
     nudge=nt<=t?`Com ${next} ímãs você paga R$ ${nt.toLocaleString('pt-BR')}, menos do que agora.`:`${miss>1?'Faltam':'Falta'} ${miss} ${miss>1?'ímãs':'ímã'} para cada um sair por R$ ${unitPrice(next)}.`}
   else nudge='Pedido grande? A gente combina o prazo com você no WhatsApp.';
   document.getElementById('qNudge').textContent=nudge;
+  renderBox(n);
   const on=tiers.filter(el=>+el.dataset.min<=n).pop();tiers.forEach(el=>el.classList.toggle('on',el===on));
   document.querySelectorAll('#qChips .chip').forEach(c=>c.setAttribute('aria-pressed',+c.dataset.q===n));
   const wa=document.getElementById('qWa');wa.textContent=`Pedir ${n} ${n>1?'ímãs':'ímã'} no WhatsApp`;
   wa.href=waLink(`Oi, mira! Quero ${n} foto ${n>1?'ímãs':'ímã'} (${n} × R$ ${u} = R$ ${money(t)}).\nPagamento: ${isCard?`cartão de crédito em ${parc}x de R$ ${cents(per)} (total R$ ${cents(tot)})`:'Pix'}.`)}
  document.querySelectorAll('.paytoggle .pt').forEach(x=>x.onclick=()=>{payMode=x.dataset.pay;set(q.value)});
  document.getElementById('qParc').addEventListener('change',e=>{parc=+e.target.value;set(q.value)});
+
+ /* caixa: os ímãs vão caindo dentro conforme a quantidade */
+ const box=document.getElementById('giftbox'),slots=document.getElementById('slots'),CAP=48;let shown=0,first=true;
+ function boxSrc(i){const own=!samples&&magnets.length,list=own?magnets:SAMPLE_UNIQ;return list[own?i%list.length:(Math.imul(i+7,2654435761)>>>0)%list.length].src}
+ function layoutBox(v){const r=slots.getBoundingClientRect(),W=r.width-20,H=r.height-20;if(W<=0)return;
+   let best=0,bc=1;for(let c=1;c<=v;c++){const rows=Math.ceil(v/c),g=Math.max(3,Math.min(8,W/c*.08)),sz=Math.min((W-g*(c-1))/c,(H-g*(rows-1))/rows);if(sz>best){best=sz;bc=c}}
+   const g=Math.max(3,Math.min(8,W/bc*.08));slots.style.setProperty('--g',g+'px');slots.style.gridTemplateColumns=`repeat(${bc},var(--s))`;slots.style.setProperty('--s',Math.floor(best)+'px')}
+ function renderBox(n){const v=Math.min(n,CAP);
+   const start=shown;while(shown<v){const d=document.createElement('div');d.className='mi'+(first?'':' drop');d.style.animationDelay=Math.min((shown-start)*35,700)+'ms';
+     d.innerHTML='<i></i>';slots.appendChild(d);shown++}
+   while(shown>v){slots.lastElementChild.remove();shown--}
+   [...slots.children].forEach((d,i)=>{const src=boxSrc(i);if(d._src!==src){d._src=src;d.firstChild.style.backgroundImage=`url("${src}")`}});
+   layoutBox(v);const more=document.getElementById('boxMore');more.hidden=n<=CAP;more.textContent='+'+(n-CAP);
+   document.getElementById('boxCap').textContent=`${n} ${n>1?'ímãs':'ímã'} na caixa`;first=false}
+ window.addEventListener('resize',()=>layoutBox(Math.min(+q.value||1,CAP)));
  minus.onclick=()=>set(+q.value-1);plus.onclick=()=>set(+q.value+1);
  q.addEventListener('input',()=>{if(q.value!=='')set(q.value)});q.addEventListener('blur',()=>set(q.value));
  document.querySelectorAll('#qChips .chip').forEach(c=>c.onclick=()=>set(c.dataset.q));
