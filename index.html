@@ -342,6 +342,10 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
 .card-total{font-size:15px;color:var(--ink);font-variant-numeric:tabular-nums;margin-top:6px}
 .card-total b{font-family:var(--f-display);font-size:20px;color:var(--cocoa)}
 .card-total small{color:var(--muted);font-size:13px}
+.paytoggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--chip);padding:5px;border-radius:20px;margin-top:6px}
+.pt{border:0;background:transparent;border-radius:16px;line-height:1.2;padding:10px 12px;font-weight:600;font-size:14px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.pt svg{width:16px;height:16px}
+.pt[aria-pressed="true"]{background:var(--cocoa);color:var(--bg)}
 /* floating whatsapp */
 .fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
 .fab svg{width:28px;height:28px}
@@ -627,14 +631,15 @@ footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-
         <p class="calc-note">Lembrancinhas de festa e brindes de empresa entram aqui também.</p>
       </div>
       <div class="calc-r" aria-live="polite">
-        <span class="label">Você paga no Pix</span>
+        <span class="label">Forma de pagamento</span>
+        <div class="paytoggle" role="group" aria-label="Forma de pagamento">
+          <button type="button" class="pt" data-pay="pix" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"/></svg>Pix</button>
+          <button type="button" class="pt" data-pay="card" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Cartão de crédito</button>
+        </div>
+        <span class="label" id="qLabel" style="margin-top:14px">Você paga no Pix</span>
         <span class="total" id="qTotal"><small>R$</small>120</span>
         <span class="breakdown" id="qBreak">10 ímãs × R$ 12</span>
-        <div class="pay" aria-label="Formas de pagamento">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3l9 9-9 9-9-9z"/></svg>Pix</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Cartão de crédito</span>
-        </div>
-        <span class="card-total" id="qCard"></span>
+        <span class="card-total" id="qCard" hidden></span>
         <p class="nudge" id="qNudge"></p>
         <a class="btn btn-wa" id="qWa" href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
       </div>
@@ -904,14 +909,19 @@ document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',(
 /* ---------- ímãs já produzidos (fotos reais entram aqui) ---------- */
 
 /* ---------- calculadora de preço ---------- */
+let payMode='pix';
 const CARD_FEE=0.0325; /* taxa do cartão repassada ao cliente: R$ 0,65 em R$ 20 */
 (function(){const q=document.getElementById('qty'),minus=document.getElementById('qMinus'),plus=document.getElementById('qPlus');
  const tiers=[...document.querySelectorAll('.tier')];const steps=[11,21,50,100];
  function set(n){n=Math.max(1,Math.min(999,Math.round(+n)||1));q.value=n;minus.disabled=n<=1;
   const u=unitPrice(n),t=n*u;
-  document.getElementById('qTotal').innerHTML='<small>R$</small>'+t.toLocaleString('pt-BR');
   document.getElementById('qBreak').textContent=`${n} ${n>1?'ímãs':'ímã'} × R$ ${u} cada`;
-  const card=Math.ceil(t*(1+CARD_FEE)*100)/100;document.getElementById('qCard').innerHTML=`No cartão de crédito: <b>R$ ${card.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</b> <small>(acréscimo de ${String(CARD_FEE*100).replace('.',',')}% de juros)</small>`;
+  const card=Math.ceil(t*(1+CARD_FEE)*100)/100,fee=String(CARD_FEE*100).replace('.',','),money=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
+  const isCard=payMode==='card',pay=isCard?card:t;
+  document.getElementById('qLabel').textContent=isCard?'Você paga no cartão de crédito':'Você paga no Pix';
+  document.getElementById('qTotal').innerHTML='<small>R$</small>'+(isCard?card.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}):money(t));
+  const qc=document.getElementById('qCard');qc.hidden=!isCard;qc.innerHTML=`R$ ${money(t)} + <b>${fee}%</b> de juros da maquininha. <small>No Pix sai R$ ${money(t)}.</small>`;
+  document.querySelectorAll('.paytoggle .pt').forEach(x=>x.setAttribute('aria-pressed',x.dataset.pay===payMode));
   const next=steps.find(s=>s>n);let nudge='';
   if(next){const nt=next*unitPrice(next),miss=next-n;
     nudge=nt<=t?`Com ${next} ímãs você paga R$ ${nt.toLocaleString('pt-BR')}, menos do que agora.`:`${miss>1?'Faltam':'Falta'} ${miss} ${miss>1?'ímãs':'ímã'} para cada um sair por R$ ${unitPrice(next)}.`}
@@ -920,7 +930,8 @@ const CARD_FEE=0.0325; /* taxa do cartão repassada ao cliente: R$ 0,65 em R$ 20
   const on=tiers.filter(el=>+el.dataset.min<=n).pop();tiers.forEach(el=>el.classList.toggle('on',el===on));
   document.querySelectorAll('#qChips .chip').forEach(c=>c.setAttribute('aria-pressed',+c.dataset.q===n));
   const wa=document.getElementById('qWa');wa.textContent=`Pedir ${n} ${n>1?'ímãs':'ímã'} no WhatsApp`;
-  wa.href=waLink(`Oi, mira! Quero ${n} foto ${n>1?'ímãs':'ímã'} (${n} × R$ ${u} = R$ ${t.toLocaleString('pt-BR')}).`)}
+  wa.href=waLink(`Oi, mira! Quero ${n} foto ${n>1?'ímãs':'ímã'} (${n} × R$ ${u} = R$ ${money(t)}).\nPagamento: ${isCard?`cartão de crédito, R$ ${card.toLocaleString('pt-BR',{minimumFractionDigits:2})} com juros`:'Pix'}.`)}
+ document.querySelectorAll('.paytoggle .pt').forEach(x=>x.onclick=()=>{payMode=x.dataset.pay;set(q.value)});
  minus.onclick=()=>set(+q.value-1);plus.onclick=()=>set(+q.value+1);
  q.addEventListener('input',()=>{if(q.value!=='')set(q.value)});q.addEventListener('blur',()=>set(q.value));
  document.querySelectorAll('#qChips .chip').forEach(c=>c.onclick=()=>set(c.dataset.q));
