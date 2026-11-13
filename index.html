@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="mira criativos: foto ímãs e quadros pintados à mão. Teste suas fotos no provador e encomende pelo WhatsApp.">
+<title>Mira Criativos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400..800,50..100&family=Outfit:wght@300..700&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: a hero that IS the studio — scene (fridge or living-room wall) on the left, controls on the right; then a three-step "como pedir" strip.
+   Brand pulled from the logo: cream disc, cocoa serif, ember dot, Instagram-ring gradient used only as the "ring" motif. */
+:root{
+  --bg:#F5EBDF;
+  --surface:#FFF8F0;
+  --ink:#3A1C0B;
+  --cocoa:#5B2A0F;
+  --muted:#8A6A55;
+  --line:#E2CFBC;
+  --ember:#D9661A;
+  --ember-ink:#FFFFFF;
+  --ring:linear-gradient(135deg,#FDB441 0%,#F77737 25%,#E1306C 55%,#C13584 75%,#833AB4 100%);
+  --scene-kitchen:#E8DCCD;
+  --chip:#F1E2D2;
+  --shadow:0 18px 40px -22px rgba(58,28,11,.45);
+  --f-display:"Fraunces", "Georgia", "Times New Roman", serif;
+  --f-body:"Outfit", "Segoe UI", system-ui, sans-serif;
+  --f-hand:"Caveat", "Comic Sans MS", cursive;
+}
+/* Single light look by choice: the brand lives on cream. */
+:root{color-scheme:light;--wa:#1FA855}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin-inline:auto}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px;border-radius:6px}
+
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:22px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo{width:56px;height:56px;border-radius:50%;padding:3px;background:var(--ring);flex:none}
+.logo span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#F2E4D4;border:2px solid var(--bg);
+  font-family:var(--f-display);font-weight:600;font-size:17px;color:#5B2A0F;letter-spacing:-.01em;font-variation-settings:"SOFT" 100}
+.dot{color:var(--ember)}
+.logo .dot{color:#D9661A}
+.brand-name{font-family:var(--f-display);font-size:15px;color:var(--muted);line-height:1.2}
+.brand-name b{display:block;color:var(--cocoa);font-size:18px;font-weight:600}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{text-decoration:none;font-size:14px;padding:8px 14px;border-radius:999px;color:var(--muted)}
+nav a:hover{background:var(--chip);color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-block:28px 26px}
+h1{font-family:var(--f-display);font-weight:500;font-variation-settings:"SOFT" 100,"opsz" 144;
+  font-size:clamp(42px,7.4vw,96px);line-height:.95;letter-spacing:-.035em;color:var(--cocoa);margin:0;text-wrap:balance}
+h1 em{font-style:italic;font-weight:400}
+.hero p{max-width:44ch;color:var(--muted);font-size:18px;margin:18px 0 0}
+.hand-note{font-family:var(--f-hand);font-size:26px;color:var(--ember);transform:rotate(-4deg);line-height:1.1;max-width:14ch;text-align:center;margin-bottom:12px}
+.hand-note svg{display:block;margin:6px auto 0;width:60px;height:40px}
+
+/* tabs */
+.tabs{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:var(--chip);margin-bottom:16px}
+.tab{border:0;background:transparent;padding:10px 20px;border-radius:999px;cursor:pointer;font-weight:500;font-size:15px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 4px 14px -8px rgba(0,0,0,.4)}
+.tab i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.tab[aria-selected="true"] i{background:var(--ring)}
+
+/* studio */
+.studio{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:22px;align-items:start}
+.scene{position:relative;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);background:var(--scene-kitchen)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel h2{font-family:var(--f-display);font-weight:600;font-size:24px;margin:0;color:var(--cocoa);letter-spacing:-.01em}
+.panel .sub{margin:4px 0 0;color:var(--muted);font-size:14px}
+.field{display:flex;flex-direction:column;gap:9px}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{border-color:var(--ember);background:var(--ember);color:var(--ember-ink)}
+.btn{border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn-primary{background:var(--cocoa);color:var(--bg)}
+.btn-ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--muted)}
+.upload{position:relative;display:flex;align-items:center;gap:14px;padding:14px;border:2px dashed var(--line);border-radius:18px;cursor:pointer}
+.upload:hover,.upload.drag{border-color:var(--ember)}
+.upload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.upload .plus{width:42px;height:42px;border-radius:50%;background:var(--ring);display:grid;place-items:center;color:#fff;font-size:24px;flex:none}
+.upload b{display:block;font-size:15px}
+.upload small{color:var(--muted);font-size:13px}
+input[type=range]{width:100%;accent-color:var(--ember)}
+input[type=text]{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.hint{font-size:13px;color:var(--muted);margin:0}
+
+/* ---------- FRIDGE ---------- */
+.kitchen{aspect-ratio:5/4;max-width:100%;position:relative;
+  background:
+    linear-gradient(transparent 92%, rgba(0,0,0,.06) 92%) 0 0/100% 100%,
+    repeating-linear-gradient(90deg, transparent 0 59px, rgba(90,50,20,.07) 59px 60px),
+    repeating-linear-gradient(0deg, transparent 0 59px, rgba(90,50,20,.07) 59px 60px),
+    var(--scene-kitchen)}
+.fridge{position:absolute;left:50%;top:6%;bottom:0;width:64%;transform:translateX(-50%);
+  background:linear-gradient(100deg,#F7F8F8 0%,#E7EAEB 45%,#F2F4F4 60%,#D9DDDE 100%);
+  border-radius:22px 22px 0 0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08), 0 30px 50px -30px rgba(0,0,0,.5)}
+.fridge::before{content:"";position:absolute;left:0;right:0;top:31%;height:3px;background:rgba(0,0,0,.09)}
+.fridge::after{content:"";position:absolute;left:5%;top:9%;width:3%;height:16%;border-radius:6px;background:linear-gradient(#cfd4d6,#b9bfc2);box-shadow:0 2px 0 rgba(0,0,0,.08)}
+.door{position:absolute;inset:0}
+.handle2{position:absolute;left:5%;top:38%;width:3%;height:22%;border-radius:6px;background:linear-gradient(#cfd4d6,#b9bfc2)}
+
+.mag{position:absolute;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
+  filter:drop-shadow(0 6px 6px rgba(0,0,0,.22));transition:filter .15s;border:0;padding:0;background:none}
+.mag:active{cursor:grabbing}
+.mag.sel{filter:drop-shadow(0 0 0 #fff) drop-shadow(0 10px 12px rgba(0,0,0,.3))}
+.mag.sel::after{content:"";position:absolute;inset:-7px;border-radius:inherit;border:2px dashed var(--ember);pointer-events:none}
+.ph{overflow:hidden;background:#ccc;position:relative}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.fmt-ima{border-radius:9%;padding:1.2%;background:#1d1a18}
+.fmt-ima .ph{aspect-ratio:1;border-radius:8%}
+.fmt-ima .ph::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(125deg,rgba(255,255,255,.38) 0%,rgba(255,255,255,.08) 28%,transparent 45%,transparent 78%,rgba(255,255,255,.12) 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),inset 0 -6px 10px -6px rgba(0,0,0,.35)}
+.mag.sel.fmt-ima::after{border-radius:12%}
+.fmt-polaroid{background:#FFFDF8;padding:6% 6% 0;border-radius:2px}
+.fmt-polaroid .ph{aspect-ratio:1}
+.fmt-polaroid .cap{display:block;font-family:var(--f-hand);color:#3a2a20;text-align:center;line-height:1;padding:.35em .2em .45em;font-size:var(--capsize,18px);min-height:1.8em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fmt-quadrado{background:#FFFDF8;padding:5%;border-radius:4px}
+.fmt-quadrado .ph{aspect-ratio:1}
+.fmt-redondo{border-radius:50%;padding:5%;background:#FFFDF8}
+.fmt-redondo .ph{aspect-ratio:1;border-radius:50%}
+.fmt-coracao{background:none;padding:0}
+.fmt-coracao .ph{aspect-ratio:1;-webkit-clip-path:url(#heart);clip-path:url(#heart);background:#fff}
+.fmt-coracao.mag{filter:drop-shadow(0 0 0 #fff) drop-shadow(0 6px 6px rgba(0,0,0,.25))}
+.mag.sel.fmt-redondo::after,.mag.sel.fmt-coracao::after{border-radius:50%}
+.badge-ex{position:absolute;right:14px;top:14px;font-size:12px;background:rgba(255,255,255,.85);color:#5B2A0F;border-radius:999px;padding:4px 10px;font-weight:600}
+
+.editor{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+.editor-frame{width:120px;touch-action:none;cursor:move}
+.editor-frame .mag{position:relative;cursor:move;width:100%}
+.editor-frame .mag.sel::after{display:none}
+
+/* ---------- ROOM ---------- */
+.room{aspect-ratio:260/230;max-width:100%;position:relative;background:var(--wall,#E9DCCB);transition:background .4s}
+.room::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(120% 70% at 30% 0%, rgba(255,255,255,.28), transparent 60%),
+  linear-gradient(transparent 70%, rgba(0,0,0,.05))}
+.floor{position:absolute;left:0;right:0;bottom:0;height:calc(var(--cm) * 15);
+  background:repeating-linear-gradient(90deg,#B98B62 0 calc(var(--cm)*24),#AE7F57 calc(var(--cm)*24) calc(var(--cm)*24.4));box-shadow:0 -3px 0 #f4ece2 inset}
+.sofa{position:absolute;left:50%;bottom:calc(var(--cm) * 15);width:calc(var(--cm)*200);height:calc(var(--cm)*82);transform:translateX(-50%)}
+.sofa .back{position:absolute;left:4%;right:4%;top:0;height:58%;border-radius:calc(var(--cm)*10) calc(var(--cm)*10) calc(var(--cm)*3) calc(var(--cm)*3);background:#C9B49C}
+.sofa .seat{position:absolute;left:4%;right:4%;top:46%;height:30%;border-radius:calc(var(--cm)*5);background:#BBA48A}
+.sofa .seat::after{content:"";position:absolute;left:50%;top:10%;bottom:10%;width:2px;background:rgba(0,0,0,.08)}
+.sofa .arm{position:absolute;top:28%;height:52%;width:9%;border-radius:calc(var(--cm)*8);background:#B39B80}
+.sofa .arm.l{left:0}.sofa .arm.r{right:0}
+.sofa .leg{position:absolute;bottom:0;width:calc(var(--cm)*3);height:20%;background:#5B3A22;border-radius:2px}
+.sofa .leg.l{left:9%}.sofa .leg.r{right:9%}
+.sofa .pillow{position:absolute;top:20%;width:calc(var(--cm)*38);height:calc(var(--cm)*32);border-radius:calc(var(--cm)*7);background:#D9661A;transform:rotate(-8deg)}
+.sofa .pillow.p2{right:12%;background:#F2E4D4;transform:rotate(7deg)}
+.sofa .pillow.p1{left:12%}
+.plant{position:absolute;bottom:calc(var(--cm)*15);right:calc(var(--cm)*4);width:calc(var(--cm)*30);height:calc(var(--cm)*95)}
+.plant .pot{position:absolute;bottom:0;left:20%;right:20%;height:30%;background:#8a5a3a;border-radius:0 0 calc(var(--cm)*5) calc(var(--cm)*5)}
+.plant .leaf{position:absolute;bottom:26%;left:45%;width:calc(var(--cm)*10);height:calc(var(--cm)*40);background:#4E7A4A;border-radius:50% 50% 50% 50%/80% 80% 20% 20%;transform-origin:bottom center}
+.ref{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--cm)*6);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85);white-space:nowrap}
+.art{position:absolute;left:50%;transform:translateX(-50%);transition:width .45s cubic-bezier(.2,.8,.2,1),height .45s cubic-bezier(.2,.8,.2,1),bottom .45s;box-shadow:0 calc(var(--cm)*2) calc(var(--cm)*5) rgba(0,0,0,.28)}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.art.f-sem{box-shadow:calc(var(--cm)*.8) calc(var(--cm)*1.4) calc(var(--cm)*3) rgba(0,0,0,.3), inset 0 0 0 1px rgba(0,0,0,.1)}
+.art.f-madeira{border:calc(var(--cm)*2.6) solid #A8754A;border-image:linear-gradient(135deg,#C08A58,#94643C 45%,#B27B4C) 1}
+.art.f-preta{border:calc(var(--cm)*2.2) solid #1E1A17}
+.art.f-branca{border:calc(var(--cm)*2.2) solid #FBF8F3}
+.art.f-passe{border:calc(var(--cm)*2) solid #1E1A17;padding:calc(var(--cm)*5);background:#FBF8F3}
+.measure{position:absolute;left:calc(100% + var(--cm)*4);top:0;bottom:0;border-left:1.5px solid rgba(0,0,0,.45);display:flex;align-items:center}
+.measure::before,.measure::after{content:"";position:absolute;left:-5px;width:9px;height:1.5px;background:rgba(0,0,0,.45)}
+.measure::before{top:0}.measure::after{bottom:0}
+.measure span{font-size:12px;font-weight:600;color:#3A1C0B;background:rgba(255,255,255,.75);padding:2px 7px;border-radius:999px;margin-left:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,96px));gap:10px}
+.thumb{aspect-ratio:3/4;border-radius:12px;overflow:hidden;border:2px solid transparent;padding:0;cursor:pointer;background:var(--chip);position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb[aria-pressed="true"]{border-color:var(--ember)}
+.thumb.add{display:grid;place-items:center;font-size:12px;color:var(--muted);text-align:center;line-height:1.2;padding:6px}
+.thumb.add input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.thumb.add span b{display:block;font-size:22px;color:var(--ember)}
+.art-title{font-family:var(--f-display);font-style:italic;font-size:20px;color:var(--cocoa)}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--ember)}
+
+/* order */
+.order{background:var(--chip);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.order p{margin:0;font-size:15px}
+.order .msg{font-family:var(--f-body);background:var(--surface);border-radius:12px;padding:12px 14px;font-size:14px;border:1px solid var(--line);white-space:pre-wrap}
+.toast{font-size:13px;color:var(--ember);min-height:1.2em}
+
+/* steps */
+.how{padding-block:70px 40px}
+.how h2{font-family:var(--f-display);font-weight:500;font-size:clamp(32px,4.5vw,52px);letter-spacing:-.025em;color:var(--cocoa);margin:0 0 28px;text-wrap:balance}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.step{display:flex;flex-direction:column;gap:10px;padding:22px;border-top:2px solid var(--line)}
+.step .n{width:46px;height:46px;border-radius:50%;padding:2.5px;background:var(--ring)}
+.step .n span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);font-family:var(--f-display);font-weight:600;font-size:19px;color:var(--cocoa)}
+.step h3{margin:6px 0 0;font-family:var(--f-display);font-weight:600;font-size:21px}
+.step p{margin:0;color:var(--muted);max-width:36ch}
+footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;padding-block:28px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer .big{font-family:var(--f-display);font-size:34px;color:var(--cocoa);font-weight:500;letter-spacing:-.02em}
+
+/* header actions */
+.actions{display:flex;align-items:center;gap:10px}
+.ig{width:42px;height:42px;border-radius:50%;padding:2.5px;background:var(--ring);display:block;flex:none;transition:transform .2s}
+.ig:hover{transform:rotate(-8deg) scale(1.06)}
+.ig span{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);color:var(--cocoa)}
+.ig svg{width:20px;height:20px}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa svg{width:18px;height:18px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+
+/* ribbon */
+.ribbon{overflow:hidden;background:var(--cocoa);color:var(--bg);margin-block:56px 0;border-radius:999px}
+.ribbon div{display:flex;gap:34px;width:max-content;padding:14px 0;animation:slide 32s linear infinite;font-family:var(--f-display);font-style:italic;font-size:22px;white-space:nowrap}
+.ribbon i{font-style:normal;color:var(--ember)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* products */
+.sec{padding-block:72px 0}
+.eyebrow{font-family:var(--f-hand);font-size:26px;color:var(--ember);line-height:1;display:block;margin-bottom:6px;transform:rotate(-2deg);transform-origin:left}
+.sec h2{font-family:var(--f-display);font-weight:500;font-size:clamp(32px,4.8vw,56px);letter-spacing:-.03em;line-height:1;color:var(--cocoa);margin:0;text-wrap:balance}
+.sec .lead{color:var(--muted);font-size:18px;max-width:52ch;margin:14px 0 0}
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:34px}
+.prod{position:relative;border-radius:28px;padding:30px;display:flex;flex-direction:column;gap:14px;overflow:hidden;min-width:0}
+.prod.p-ima{background:#F9DCCB}
+.prod.p-quadro{background:#E4E3CF}
+.prod h3{font-family:var(--f-display);font-weight:600;font-size:34px;letter-spacing:-.02em;margin:0;color:var(--cocoa)}
+.prod p{margin:0;max-width:40ch}
+.prod ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.prod li{display:flex;gap:10px;align-items:baseline}
+.prod li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ember);flex:none;transform:translateY(-2px)}
+.prod .row{margin-top:auto;padding-top:8px}
+.prod .deco{position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;border:2px dashed rgba(91,42,15,.25)}
+
+/* made gallery */
+.made{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:34px;align-items:start}
+.made figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.made figure:nth-child(2){margin-top:46px}
+.made .shot{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:3/4;max-width:100%}
+.made img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.made figure:hover img{transform:scale(1.04)}
+.made figcaption{font-family:var(--f-hand);font-size:24px;color:var(--cocoa);padding-left:6px;line-height:1.1}
+.made-q{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:22px;margin-top:56px;align-items:end}
+.made-q figure{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.made-q .shot{border-radius:24px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:3/4;max-width:100%}
+.made-q img{width:100%;height:100%;object-fit:cover;display:block}
+.made-q figcaption{font-family:var(--f-hand);font-size:24px;color:var(--cocoa);padding-left:6px;line-height:1.1}
+.made-q-text{display:flex;flex-direction:column;gap:14px;align-items:flex-start;align-self:center}
+.made-q-text h3{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3vw,36px);letter-spacing:-.02em;line-height:1.05;margin:0;color:var(--cocoa)}
+.made-q-text p{margin:0;color:var(--muted)}
+@media (max-width:700px){.made-q{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.made-q-text{grid-column:1/-1}}
+@media (max-width:700px){.made{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.made figure:nth-child(2){margin-top:30px}.made figure:nth-child(3){grid-column:1/-1}.made figure:nth-child(3) .shot{aspect-ratio:4/3}}
+
+/* occasions */
+.occ{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:30px}
+.occ div{border:1.5px solid var(--line);border-radius:22px;padding:20px;background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.occ b{font-family:var(--f-display);font-size:20px;font-weight:600;color:var(--cocoa)}
+.occ span{color:var(--muted);font-size:15px}
+
+/* final cta */
+.cta{margin-top:80px;border-radius:36px;padding:48px 34px;background:var(--cocoa);color:var(--bg);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center;position:relative;overflow:hidden}
+.cta h2{font-family:var(--f-display);font-weight:500;font-size:clamp(32px,5vw,58px);letter-spacing:-.03em;line-height:1;margin:0;color:var(--bg)}
+.cta p{margin:12px 0 0;opacity:.8;max-width:46ch}
+.cta .num{font-variant-numeric:tabular-nums;font-weight:600;opacity:1}
+.cta::after{content:"";position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;background:var(--ring);opacity:.35}
+.cta .row{position:relative;z-index:1}
+.btn-light{background:var(--bg);color:var(--cocoa)}
+
+/* floating whatsapp */
+.fab{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);color:#fff;display:grid;place-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.45)}
+.fab svg{width:28px;height:28px}
+.foot-links{display:flex;gap:12px;align-items:center}
+
+@media (max-width:900px){
+  .products{grid-template-columns:1fr}
+  .occ{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cta{grid-template-columns:1fr}
+  .studio{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr}
+  .hand-note{display:none}
+  .steps{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  nav{display:none}
+  .btn-wa.head{display:none}
+  .occ{grid-template-columns:1fr}
+  .prod{padding:24px}
+  .cta{padding:34px 22px}
+  .panel{padding:18px}
+  .scene{border-radius:20px}
+  .measure span{font-size:10px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <clipPath id="heart" clipPathUnits="objectBoundingBox">
+    <path d="M.5,.92 C.18,.7 0,.52 0,.3 C0,.13 .13,0 .29,0 C.39,0 .46,.05 .5,.13 C.54,.05 .61,0 .71,0 C.87,0 1,.13 1,.3 C1,.52 .82,.7 .5,.92Z"/>
+  </clipPath>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="brand" href="#provador" aria-label="mira. início">
+      <div class="logo"><span>mira<b class="dot">.</b></span></div>
+      <div class="brand-name"><b>mira criativos</b>feito à mão</div>
+    </a>
+    <nav aria-label="Seções">
+      <a href="#produtos">Produtos</a>
+      <a href="#provador" data-go="ima">Provador</a>
+      <a href="#como-pedir">Como pedir</a>
+    </nav>
+    <div class="actions">
+      <a class="ig" href="https://www.instagram.com/mira_criativos/" target="_blank" rel="noopener" aria-label="Instagram @mira_criativos"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></a>
+      <a class="btn btn-wa head" data-wa="Oi, mira! Vim pelo site e quero fazer uma encomenda." href="https://wa.me/559294498445" target="_blank" rel="noopener">Encomendar</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h1>Suas memórias, <em>feitas à mão</em> pra ficar à vista<span class="dot">.</span></h1>
+      <p>A mira transforma fotos em ímãs de geladeira e artes em quadros pintados à mão. Peças pequenas, feitas uma a uma, pra presentear ou pra deixar a casa com a sua cara.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#provador">Testar no provador</a>
+        <a class="btn btn-wa" data-wa="Oi, mira! Vim pelo site e quero fazer uma encomenda." href="https://wa.me/559294498445" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg>Pedir no WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ribbon" aria-hidden="true"><div>
+    <span>foto ímãs <i>✦</i></span><span>quadros pintados à mão <i>✦</i></span><span>presentes com história <i>✦</i></span><span>feito uma a uma <i>✦</i></span><span>sob encomenda <i>✦</i></span>
+    <span>foto ímãs <i>✦</i></span><span>quadros pintados à mão <i>✦</i></span><span>presentes com história <i>✦</i></span><span>feito uma a uma <i>✦</i></span><span>sob encomenda <i>✦</i></span>
+  </div></div>
+
+  <section class="sec" id="produtos">
+    <span class="eyebrow">o que a gente faz</span>
+    <h2>Dois jeitos de guardar o que importa<span class="dot">.</span></h2>
+    <div class="products">
+      <article class="prod p-ima">
+        <div class="deco" aria-hidden="true"></div>
+        <h3>Foto ímãs</h3>
+        <p>Aquela foto que vive escondida no celular vai pra porta da geladeira, onde todo mundo vê todo dia.</p>
+        <ul>
+          <li>Feitos a partir das suas fotos</li>
+          <li>Ótimos para presente e lembrancinha</li>
+          <li>Pedidos de uma unidade ou em kits</li>
+        </ul>
+        <div class="row">
+          <a class="btn btn-primary" href="#provador" data-go="ima">Ver com minhas fotos</a>
+          <a class="btn btn-ghost" data-wa="Oi, mira! Quero encomendar foto ímãs." href="https://wa.me/559294498445" target="_blank" rel="noopener">Encomendar</a>
+        </div>
+      </article>
+      <article class="prod p-quadro">
+        <div class="deco" aria-hidden="true"></div>
+        <h3>Quadros feitos à mão</h3>
+        <p>Arte pintada à mão, com pinceladas de verdade. Escolha uma das nossas ou traga uma referência sua.</p>
+        <ul>
+          <li>Peças únicas, nunca impressas</li>
+          <li>Tamanho e acabamento combinados com você</li>
+          <li>Feito pensando na sua parede</li>
+        </ul>
+        <div class="row">
+          <a class="btn btn-primary" href="#provador" data-go="quadro">Ver na minha parede</a>
+          <a class="btn btn-ghost" data-wa="Oi, mira! Quero encomendar um quadro feito à mão." href="https://wa.me/559294498445" target="_blank" rel="noopener">Encomendar</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="feitos">
+    <span class="eyebrow">saídos do ateliê</span>
+    <h2>Alguns ímãs que já fizemos<span class="dot">.</span></h2>
+    <p class="lead">Casamentos, nascimentos, aniversários. Cada pedido chega com a história de alguém, e a gente capricha em cada um.</p>
+    <div class="made">
+      <figure><div class="shot"><img src="imas/casamento.jpg" alt="Cinco foto ímãs com fotos de casamento" loading="lazy"></div><figcaption>o grande dia, em ímãs</figcaption></figure>
+      <figure><div class="shot"><img src="imas/caixa-familia.jpg" alt="Caixa verde com foto ímãs de gravidez, nascimento e aniversário" loading="lazy"></div><figcaption>kit presente em caixa</figcaption></figure>
+      <figure><div class="shot"><img src="imas/parede.jpg" alt="Mão segurando um foto ímã de família na frente de uma parede cheia de ímãs" loading="lazy"></div><figcaption>a geladeira vira um mural</figcaption></figure>
+    </div>
+    <div class="made-q">
+      <div class="made-q-text">
+        <h3>E os quadros, pintados à mão<span class="dot">.</span></h3>
+        <p>Tinta sobre tela, traço por traço. Cada quadro é único, mesmo quando a ideia se repete.</p>
+        <a class="btn btn-primary" href="#provador" data-go="quadro">Ver na minha parede</a>
+      </div>
+      <figure><div class="shot"><img src="quadros/vila.jpg" alt="Quadro pintado à mão de uma vila colorida sob uma estrela, ao lado de uma planta" loading="lazy"></div><figcaption>vila sob a estrela</figcaption></figure>
+      <figure><div class="shot"><img src="quadros/presepio.jpg" alt="Quadro pintado à mão de um presépio em traço branco sobre fundo vinho" loading="lazy"></div><figcaption>presépio</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sec" id="provador">
+    <span class="eyebrow">provador</span>
+    <h2>Veja como fica <em style="font-weight:400">antes</em> de ser seu<span class="dot">.</span></h2>
+    <p class="lead">Coloque suas fotos na geladeira ou pendure uma arte na parede da sala. Ajuste do seu jeito e mande o pedido pronto no WhatsApp.</p>
+    <div style="height:24px"></div>
+
+  <div class="tabs" role="tablist" aria-label="Escolha o produto">
+    <button class="tab" role="tab" id="tab-ima" aria-selected="true" aria-controls="studio-ima"><i></i>Foto ímã</button>
+    <button class="tab" role="tab" id="tab-quadro" aria-selected="false" aria-controls="studio-quadro"><i></i>Quadro feito à mão</button>
+  </div>
+
+  <!-- ÍMÃS -->
+  <section class="studio" id="studio-ima" role="tabpanel" aria-labelledby="tab-ima">
+    <div class="scene">
+      <div class="kitchen">
+        <div class="fridge"><div class="handle2"></div><div class="door" id="door"></div></div>
+      </div>
+      <span class="badge-ex" id="exBadge">fotos de exemplo</span>
+    </div>
+
+    <div class="panel">
+      <div>
+        <h2>Sua geladeira, suas fotos</h2>
+        <p class="sub">Arraste os ímãs pela porta. Toque em um para editar.</p>
+      </div>
+
+      <label class="upload" id="dropIma">
+        <input type="file" id="fileIma" accept="image/*" multiple>
+        <span class="plus" aria-hidden="true">+</span>
+        <span><b>Adicionar minhas fotos</b><small>Escolha várias de uma vez. Elas ficam só no seu aparelho.</small></span>
+      </label>
+
+      <div class="editor">
+        <div class="editor-frame" id="editorFrame" title="Arraste para enquadrar"></div>
+        <div class="field">
+          <label class="label" for="zoom">Zoom e enquadramento</label>
+          <input type="range" id="zoom" min="100" max="250" value="100">
+          <p class="hint">Arraste a foto ao lado para escolher o que aparece.</p>
+          <div class="row">
+            <button class="btn btn-ghost" id="rmMag" type="button">Remover este ímã</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="order">
+        <p id="imaSummary"></p>
+        <div class="msg" id="imaMsg"></div>
+        <div class="row">
+          <a class="btn btn-wa" id="waIma" href="https://wa.me/559294498445" target="_blank" rel="noopener">Enviar pedido no WhatsApp</a>
+          <button class="btn btn-ghost" data-copy="imaMsg" type="button">Copiar texto</button>
+        </div>
+        <span class="toast" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUADROS -->
+  <section class="studio" id="studio-quadro" role="tabpanel" aria-labelledby="tab-quadro" hidden>
+    <div class="scene">
+      <div class="room" id="room">
+        <div class="art" id="art"><img id="artImg" alt=""><div class="measure"><span id="measureTxt"></span></div></div>
+        <div class="plant" aria-hidden="true">
+          <div class="leaf" style="transform:rotate(-28deg)"></div><div class="leaf" style="transform:rotate(-8deg);height:calc(var(--cm)*52)"></div>
+          <div class="leaf" style="transform:rotate(16deg)"></div><div class="leaf" style="transform:rotate(36deg);height:calc(var(--cm)*32)"></div>
+          <div class="pot"></div>
+        </div>
+        <div class="sofa" aria-hidden="true">
+          <div class="back"></div><div class="pillow p1"></div><div class="pillow p2"></div>
+          <div class="seat"></div><div class="arm l"></div><div class="arm r"></div><div class="leg l"></div><div class="leg r"></div>
+        </div>
+        <div class="floor"></div>
+        <span class="ref">sofá de 2 m · tudo em escala</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div>
+        <h2>Pendure antes de pendurar</h2>
+        <p class="sub">Escolha a arte, o tamanho e a moldura. A sala está em escala real.</p>
+      </div>
+
+      <div class="field">
+        <span class="label">Arte</span>
+        <div class="gallery" id="gallery"></div>
+        <span class="art-title" id="artTitle"></span>
+      </div>
+
+      <div class="field">
+        <span class="label">Tamanho (cm)</span>
+        <div class="chips" id="sizeChips"></div>
+      </div>
+
+      <div class="field">
+        <span class="label">Orientação</span>
+        <div class="chips" id="orientChips">
+          <button class="chip" data-o="retrato">Retrato</button>
+          <button class="chip" data-o="paisagem">Paisagem</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label">Acabamento</span>
+        <div class="chips" id="frameChips">
+          <button class="chip" data-f="sem">Tela sem moldura</button>
+          <button class="chip" data-f="madeira">Madeira natural</button>
+          <button class="chip" data-f="preta">Moldura preta</button>
+          <button class="chip" data-f="branca">Moldura branca</button>
+          <button class="chip" data-f="passe">Com paspatur</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="label">Cor da sua parede</span>
+        <div class="swatches" id="walls"></div>
+      </div>
+
+      <div class="order">
+        <div class="msg" id="quadroMsg"></div>
+        <div class="row">
+          <a class="btn btn-wa" id="waQuadro" href="https://wa.me/559294498445" target="_blank" rel="noopener">Enviar pedido no WhatsApp</a>
+          <button class="btn btn-ghost" data-copy="quadroMsg" type="button">Copiar texto</button>
+        </div>
+        <span class="toast" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  </section>
+
+  <section class="sec">
+    <span class="eyebrow">pra quem é</span>
+    <h2>Um presente que ninguém esquece na gaveta<span class="dot">.</span></h2>
+    <div class="occ">
+      <div><b>Aniversários</b><span>A foto preferida da pessoa, pra ela ver toda manhã.</span></div>
+      <div><b>Casais</b><span>Viagens, primeiro encontro, a casa nova. A história de vocês na geladeira.</span></div>
+      <div><b>Família</b><span>Avós, filhos, o cachorro. Os rostos que você quer por perto.</span></div>
+      <div><b>Lembrancinhas</b><span>Casamentos, chás e festas: cada convidado leva um ímã pra casa.</span></div>
+    </div>
+  </section>
+
+  <section class="how" id="como-pedir">
+    <span class="eyebrow">como pedir</span>
+    <h2>Do provador pra sua casa<span class="dot">.</span></h2>
+    <div class="steps">
+      <div class="step"><div class="n"><span>1</span></div><h3>Monte aqui</h3><p>Teste suas fotos e artes no provador até ficar do seu jeito.</p></div>
+      <div class="step"><div class="n"><span>2</span></div><h3>Chame no WhatsApp</h3><p>O pedido vai pronto. Depois é só mandar as fotos originais na conversa.</p></div>
+      <div class="step"><div class="n"><span>3</span></div><h3>A gente faz à mão</h3><p>Confirmamos valores e prazo com você e produzimos cada peça com cuidado.</p></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div>
+      <h2>Bora fazer o seu<span style="color:var(--ember)">?</span></h2>
+      <p>Encomendas pelo WhatsApp <span class="num">+55 92 9449-8445</span>. Novidades e peças prontas no Instagram.</p>
+    </div>
+    <div class="row">
+      <a class="btn btn-wa" data-wa="Oi, mira! Vim pelo site e quero fazer uma encomenda." href="https://wa.me/559294498445" target="_blank" rel="noopener">Pedir no WhatsApp</a>
+      <a class="btn btn-light" href="https://www.instagram.com/mira_criativos/" target="_blank" rel="noopener">@mira_criativos</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="big">mira<span class="dot">.</span></span>
+    <div class="foot-links">
+      <span>Foto ímãs e quadros feitos à mão</span>
+      <a class="ig" href="https://www.instagram.com/mira_criativos/" target="_blank" rel="noopener" aria-label="Instagram @mira_criativos"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></a>
+    </div>
+  </footer>
+</div>
+
+<a class="fab" data-wa="Oi, mira! Vim pelo site e quero fazer uma encomenda." href="https://wa.me/559294498445" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4.1 1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg></a>
+
+<script>
+(function(){
+/* ---------- WhatsApp ---------- */
+const WA='559294498445';
+function waLink(t){return 'https://wa.me/'+WA+'?text='+encodeURIComponent(t)}
+document.querySelectorAll('[data-wa]').forEach(a=>a.href=waLink(a.dataset.wa));
+
+/* ---------- tiny painter for sample images ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function canvas(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return [c,c.getContext('2d')]}
+function stroke(ctx,r,x1,y1,x2,y2,w,col,a){ctx.save();ctx.globalAlpha=a;ctx.strokeStyle=col;ctx.lineCap='round';
+  for(let k=0;k<3;k++){ctx.lineWidth=w*(0.5+r()*0.6);ctx.beginPath();ctx.moveTo(x1+(r()-.5)*w,y1+(r()-.5)*w);
+  ctx.quadraticCurveTo((x1+x2)/2+(r()-.5)*w*3,(y1+y2)/2+(r()-.5)*w*3,x2+(r()-.5)*w,y2+(r()-.5)*w);ctx.stroke()}ctx.restore()}
+function grain(ctx,w,h,r){for(let i=0;i<w*h/60;i++){ctx.fillStyle=r()<.5?'rgba(255,255,255,.05)':'rgba(0,0,0,.05)';ctx.fillRect(r()*w,r()*h,1.5,1.5)}}
+
+const ARTS=[
+ {name:'Encontro das Águas',paint(ctx,w,h,r){ctx.fillStyle='#2A1A12';ctx.fillRect(0,0,w,h);
+   for(let i=0;i<260;i++){const y=r()*h;const mix=y/h;const col=r()<mix?['#C98545','#B8703A','#D9A066'][i%3]:['#1E1410','#3A2618','#2C1D14'][i%3];
+     const x=r()*w;stroke(ctx,r,x-w*.4,y,x+w*.4,y+(r()-.5)*h*.12,6+r()*16,col,.55)}
+   for(let i=0;i<40;i++){const y=h*.45+(r()-.5)*h*.12;stroke(ctx,r,0,y,w,y+(r()-.5)*40,3,'#F2E4D4',.25)} grain(ctx,w,h,r)}},
+ {name:'Vitória-régia',paint(ctx,w,h,r){ctx.fillStyle='#173029';ctx.fillRect(0,0,w,h);
+   for(let i=0;i<120;i++){const y=r()*h,x=r()*w;stroke(ctx,r,x-60,y,x+60,y+(r()-.5)*10,8,i%2?'#1F3D35':'#122620',.6)}
+   const pads=[[.32,.3,.24],[.7,.55,.3],[.28,.78,.18],[.78,.15,.12]];
+   pads.forEach(([px,py,pr])=>{const cx=px*w,cy=py*h,R=pr*w;ctx.fillStyle='#5E8A45';ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,0.15,Math.PI*2-0.15);ctx.closePath();ctx.fill();
+     ctx.strokeStyle='#8DB062';ctx.lineWidth=R*.08;ctx.beginPath();ctx.arc(cx,cy,R*.95,0.2,Math.PI*2-.2);ctx.stroke();
+     for(let k=0;k<14;k++){const a=k/14*Math.PI*2;stroke(ctx,r,cx,cy,cx+Math.cos(a)*R*.85,cy+Math.sin(a)*R*.85,2,'#43703A',.5)}});
+   const fx=w*.55,fy=h*.35;for(let k=0;k<12;k++){const a=k/12*Math.PI*2;ctx.fillStyle=k%2?'#F2B8C0':'#FBE7EA';ctx.beginPath();ctx.ellipse(fx+Math.cos(a)*18,fy+Math.sin(a)*18,26,10,a,0,Math.PI*2);ctx.fill()}
+   ctx.fillStyle='#F6D36B';ctx.beginPath();ctx.arc(fx,fy,10,0,Math.PI*2);ctx.fill(); grain(ctx,w,h,r)}},
+ {name:'Fim de tarde',paint(ctx,w,h,r){const cols=['#FBD27A','#F7A647','#EE7A35','#D9661A','#B44A2A','#7E3640','#4A2840'];
+   cols.forEach((c,i)=>{const y0=i/cols.length*h;ctx.fillStyle=c;ctx.fillRect(0,y0,w,h/cols.length+2);
+     for(let k=0;k<30;k++){const x=r()*w;stroke(ctx,r,x-80,y0+(r())*h/cols.length,x+80,y0+r()*h/cols.length,10,cols[Math.min(cols.length-1,i+(r()<.5?1:0))],.35)}});
+   ctx.fillStyle='#FFF1C9';ctx.globalAlpha=.92;ctx.beginPath();ctx.arc(w*.5,h*.42,w*.17,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+   ctx.fillStyle='#2B1720';ctx.beginPath();ctx.moveTo(0,h*.72);for(let x=0;x<=w;x+=w/12){ctx.lineTo(x,h*.7+Math.sin(x*.02)*12+(r()-.5)*14)}ctx.lineTo(w,h);ctx.lineTo(0,h);ctx.fill(); grain(ctx,w,h,r)}},
+ {name:'Folhagem',paint(ctx,w,h,r){ctx.fillStyle='#EFE2D0';ctx.fillRect(0,0,w,h);
+   const greens=['#3F6B45','#5E8A45','#2E4F3A','#7FA35A','#5B2A0F'];
+   for(let i=0;i<26;i++){const x=r()*w,y=r()*h,a=r()*Math.PI,L=60+r()*120;ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.fillStyle=greens[i%greens.length];
+     ctx.beginPath();ctx.ellipse(0,0,L,L*.32,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-L,0);ctx.lineTo(L,0);ctx.stroke();ctx.restore()}
+   ctx.fillStyle='#D9661A';ctx.beginPath();ctx.arc(w*.72,h*.24,w*.07,0,Math.PI*2);ctx.fill(); grain(ctx,w,h,r)}}
+];
+/* quadros reais da mira */
+const REAL=[{name:'Vila sob a estrela',src:'art/vila.jpg'},{name:'Presépio',src:'art/presepio.jpg'}];
+
+function samplePhoto(kind){const [c,ctx]=canvas(500,500);const r=rng(kind*31+3);
+  if(kind===0){const g=ctx.createLinearGradient(0,0,0,500);g.addColorStop(0,'#F9B46B');g.addColorStop(.5,'#F38E7A');g.addColorStop(1,'#5E5A8C');ctx.fillStyle=g;ctx.fillRect(0,0,500,500);
+    ctx.fillStyle='#FFE6B0';ctx.beginPath();ctx.arc(250,250,70,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3B4A73';ctx.fillRect(0,300,500,200);
+    for(let i=0;i<40;i++){ctx.fillStyle='rgba(255,230,176,.5)';ctx.fillRect(200+(r()-.5)*160,310+i*4,40+r()*60,2)}}
+  else if(kind===1){ctx.fillStyle='#BFE0E8';ctx.fillRect(0,0,500,500);ctx.fillStyle='#7FA35A';ctx.beginPath();ctx.moveTo(0,330);ctx.quadraticCurveTo(150,220,300,320);ctx.quadraticCurveTo(420,260,500,300);ctx.lineTo(500,500);ctx.lineTo(0,500);ctx.fill();
+    ctx.fillStyle='#4E7A4A';ctx.beginPath();ctx.moveTo(0,400);ctx.quadraticCurveTo(250,330,500,420);ctx.lineTo(500,500);ctx.lineTo(0,500);ctx.fill();
+    ctx.fillStyle='#fff';[[90,90],[300,60],[390,130]].forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,26,0,7);ctx.arc(x+30,y,32,0,7);ctx.arc(x+62,y,22,0,7);ctx.fill()})}
+  else {ctx.fillStyle='#F2E4D4';ctx.fillRect(0,0,500,500);for(let i=0;i<9;i++){const x=60+r()*380,y=60+r()*380,s=30+r()*40,col=['#E1306C','#F77737','#FDB441','#D9661A'][i%4];
+    for(let k=0;k<6;k++){const a=k/6*Math.PI*2;ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(x+Math.cos(a)*s*.6,y+Math.sin(a)*s*.6,s*.55,s*.3,a,0,7);ctx.fill()}
+    ctx.fillStyle='#5B2A0F';ctx.beginPath();ctx.arc(x,y,s*.25,0,7);ctx.fill()}}
+  grain(ctx,500,500,r);return c.toDataURL('image/jpeg',.88)}
+
+function loadFile(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const m=1400,s=Math.min(1,m/Math.max(im.width,im.height));
+  const [c,ctx]=canvas(Math.round(im.width*s),Math.round(im.height*s));ctx.drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.88))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+
+/* ---------- tabs ---------- */
+const tabs={ima:document.getElementById('tab-ima'),quadro:document.getElementById('tab-quadro')};
+const panes={ima:document.getElementById('studio-ima'),quadro:document.getElementById('studio-quadro')};
+function setMode(m){Object.keys(tabs).forEach(k=>{tabs[k].setAttribute('aria-selected',k===m);panes[k].hidden=k!==m});if(m==='quadro')sizeRoom();}
+tabs.ima.onclick=()=>setMode('ima');tabs.quadro.onclick=()=>setMode('quadro');
+document.querySelectorAll('[data-go]').forEach(a=>a.addEventListener('click',()=>setMode(a.dataset.go)));
+
+/* ---------- ÍMÃS ---------- */
+const door=document.getElementById('door'),editorFrame=document.getElementById('editorFrame');
+let magnets=[],sel=0,samples=true,uid=0,zTop=10;
+function mk(src,fmt,x,y,rot,cap){return {id:++uid,src,fmt,x,y,rot,cap:cap||'',zoom:100,px:50,py:50}}
+magnets=[mk(samplePhoto(0),'ima',16,10,-4),mk(samplePhoto(1),'ima',52,8,3),mk(samplePhoto(2),'ima',22,42,2),mk(samplePhoto(1),'ima',58,40,-3),mk(samplePhoto(0),'ima',38,68,4)];
+magnets[3].zoom=150;magnets[3].px=30;magnets[4].zoom=170;magnets[4].py=70;
+
+function magHTML(m){return `<div class="ph"><img src="${m.src}" alt="" style="object-position:${m.px}% ${m.py}%;transform:scale(${m.zoom/100});transform-origin:${m.px}% ${m.py}%"></div>`}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function renderDoor(){door.innerHTML='';magnets.forEach((m,i)=>{const el=document.createElement('button');el.type='button';
+  el.className='mag fmt-'+m.fmt+(i===sel?' sel':'');el.style.left=m.x+'%';el.style.top=m.y+'%';el.style.width='22%';
+  el.style.transform=`rotate(${m.rot}deg)`;el.innerHTML=magHTML(m);el.setAttribute('aria-label','Ímã '+(i+1));
+  dragMag(el,i);door.appendChild(el)});
+  document.getElementById('exBadge').hidden=!samples;}
+function renderEditor(){const m=magnets[sel];
+  if(!m){editorFrame.innerHTML='';updateImaOrder();return}
+  editorFrame.innerHTML=`<div class="mag fmt-${m.fmt}">${magHTML(m)}</div>`;
+  document.getElementById('zoom').value=m.zoom;updateImaOrder()}
+function refreshSel(){const m=magnets[sel];const el=door.children[sel];if(el)el.innerHTML=magHTML(m);const e2=editorFrame.querySelector('.mag');if(e2)e2.innerHTML=magHTML(m)}
+function renderAll(){renderDoor();renderEditor()}
+
+function dragMag(el,i){let sx,sy,ox,oy,moved=false;
+  el.addEventListener('pointerdown',e=>{if(sel!==i){sel=i;door.querySelectorAll('.mag').forEach((n,k)=>n.classList.toggle('sel',k===i));renderEditor()}
+    el.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;ox=magnets[i].x;oy=magnets[i].y;moved=false;
+    el.style.zIndex=++zTop});
+  el.addEventListener('pointermove',e=>{if(!el.hasPointerCapture(e.pointerId))return;const r=door.getBoundingClientRect();
+    const m=magnets[i];m.x=Math.max(-4,Math.min(80,ox+(e.clientX-sx)/r.width*100));m.y=Math.max(-2,Math.min(82,oy+(e.clientY-sy)/r.height*100));
+    el.style.left=m.x+'%';el.style.top=m.y+'%';moved=true});
+  el.addEventListener('keydown',e=>{const d={ArrowLeft:[-2,0],ArrowRight:[2,0],ArrowUp:[0,-2],ArrowDown:[0,2]}[e.key];if(!d)return;e.preventDefault();
+    const m=magnets[i];m.x=Math.max(-4,Math.min(80,m.x+d[0]));m.y=Math.max(-2,Math.min(82,m.y+d[1]));el.style.left=m.x+'%';el.style.top=m.y+'%'});
+  el.addEventListener('focus',()=>{if(sel!==i){sel=i;door.querySelectorAll('.mag').forEach(n=>n.classList.toggle('sel',n===el));renderEditor()}});
+}
+/* pan inside editor */
+(function(){let sx,sy,opx,opy;editorFrame.addEventListener('pointerdown',e=>{const m=magnets[sel];if(!m)return;editorFrame.setPointerCapture(e.pointerId);sx=e.clientX;sy=e.clientY;opx=m.px;opy=m.py});
+ editorFrame.addEventListener('pointermove',e=>{if(!editorFrame.hasPointerCapture(e.pointerId))return;const m=magnets[sel];const w=editorFrame.offsetWidth;
+  const k=100/(w*m.zoom/100)*1.6;m.px=Math.max(0,Math.min(100,opx-(e.clientX-sx)*k));m.py=Math.max(0,Math.min(100,opy-(e.clientY-sy)*k));refreshSel()})})();
+
+document.getElementById('zoom').addEventListener('input',e=>{const m=magnets[sel];if(!m)return;m.zoom=+e.target.value;refreshSel()});
+document.getElementById('rmMag').onclick=()=>{if(!magnets.length)return;magnets.splice(sel,1);sel=Math.max(0,sel-1);renderAll()};
+
+async function addFiles(files){const list=[...files].filter(f=>f.type.startsWith('image/'));if(!list.length)return;
+  if(samples){magnets=[];samples=false}
+  for(const f of list){try{const src=await loadFile(f);const n=magnets.length;
+    magnets.push(mk(src,'ima',8+(n%3)*25+Math.random()*4,4+Math.floor(n/3)%4*22+Math.random()*3,(Math.random()-.5)*8))}catch(err){}}
+  sel=magnets.length-1;renderAll()}
+document.getElementById('fileIma').addEventListener('change',e=>{addFiles(e.target.files);e.target.value=''});
+const drop=document.getElementById('dropIma');['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('drag')}));
+['dragleave','drop'].forEach(t=>drop.addEventListener(t,()=>drop.classList.remove('drag')));drop.addEventListener('drop',e=>{e.preventDefault();addFiles(e.dataTransfer.files)});
+
+function updateImaOrder(){const n=magnets.length;
+  document.getElementById('imaSummary').innerHTML=n?`<b>${n} ${n>1?'ímãs':'ímã'}</b> na sua geladeira`+(samples?' (exemplos)':''):'Adicione fotos para montar seu pedido.';
+  document.getElementById('imaMsg').textContent=n?`Oi, mira! Montei ${n} foto ${n>1?'ímãs':'ímã'} no provador do site e quero encomendar.\nVou mandar as fotos aqui na conversa.`:'—';
+  document.getElementById('waIma').href=waLink(n?document.getElementById('imaMsg').textContent:'Oi, mira! Quero encomendar foto ímãs.')}
+
+/* ---------- QUADROS ---------- */
+const room=document.getElementById('room'),art=document.getElementById('art'),artImg=document.getElementById('artImg');
+const SIZES=[[20,30],[30,40],[40,60],[50,70],[60,90]];
+const WALLS=[['Areia','#E9DCCB'],['Off-white','#F4F1EC'],['Verde musgo','#8E9B7A'],['Terracota','#C98B6B'],['Azul noite','#3E4A5C'],['Grafite','#55514E']];
+const artSrc=REAL.map(a=>a.src);
+let Q={art:0,custom:null,size:1,orient:'retrato',frame:'sem',wall:1};
+
+const gal=document.getElementById('gallery');
+function renderGallery(){gal.innerHTML='';artSrc.forEach((s,i)=>{const b=document.createElement('button');b.className='thumb';b.type='button';b.setAttribute('aria-pressed',Q.art===i);b.setAttribute('aria-label',REAL[i].name);
+  b.innerHTML=`<img src="${s}" alt="">`;b.onclick=()=>{Q.art=i;renderQuadro()};gal.appendChild(b)});
+  const up=document.createElement('label');up.className='thumb add';up.setAttribute('aria-pressed',Q.art===-1);
+  up.innerHTML=Q.custom?`<img src="${Q.custom}" alt="Sua imagem"><input type="file" accept="image/*" aria-label="Trocar sua imagem">`:`<span><b>+</b>sua arte</span><input type="file" accept="image/*" aria-label="Enviar sua imagem">`;
+  up.querySelector('input').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{Q.custom=await loadFile(f);Q.art=-1;renderQuadro()}catch(err){}});
+  if(Q.custom)up.addEventListener('click',ev=>{if(Q.art!==-1&&ev.target.tagName!=='INPUT'){ev.preventDefault();Q.art=-1;renderQuadro()}});
+  gal.appendChild(up)}
+const sizeChips=document.getElementById('sizeChips');
+SIZES.forEach((s,i)=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=s[0]+' × '+s[1];b.onclick=()=>{Q.size=i;renderQuadro()};sizeChips.appendChild(b)});
+document.querySelectorAll('#orientChips .chip').forEach(b=>b.onclick=()=>{Q.orient=b.dataset.o;renderQuadro()});
+document.querySelectorAll('#frameChips .chip').forEach(b=>b.onclick=()=>{Q.frame=b.dataset.f;renderQuadro()});
+const walls=document.getElementById('walls');
+WALLS.forEach(([n,c],i)=>{const b=document.createElement('button');b.className='sw';b.type='button';b.style.background=c;b.title=n;b.setAttribute('aria-label','Parede '+n);b.onclick=()=>{Q.wall=i;renderQuadro()};walls.appendChild(b)});
+
+function frameName(f){return{sem:'tela sem moldura',madeira:'moldura de madeira natural',preta:'moldura preta',branca:'moldura branca',passe:'moldura preta com paspatur'}[f]}
+function renderQuadro(){renderGallery();
+  [...sizeChips.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===Q.size));
+  document.querySelectorAll('#orientChips .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.o===Q.orient));
+  document.querySelectorAll('#frameChips .chip').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===Q.frame));
+  [...walls.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===Q.wall));
+  room.style.setProperty('--wall',WALLS[Q.wall][1]);
+  let [w,h]=SIZES[Q.size];if(Q.orient==='paisagem')[w,h]=[h,w];
+  art.className='art f-'+Q.frame;art.style.width=`calc(var(--cm) * ${w})`;art.style.height=`calc(var(--cm) * ${h})`;art.style.boxSizing='content-box';
+  art.style.bottom=`calc(var(--cm) * ${15+82+20})`;
+  artImg.src=Q.art===-1?Q.custom:artSrc[Q.art];
+  document.getElementById('measureTxt').textContent=w+' × '+h+' cm';
+  const name=Q.art===-1?'Sua arte':REAL[Q.art].name;document.getElementById('artTitle').textContent=Q.art===-1?'Sua imagem como referência':'“'+name+'” · pintado pela mira';
+  document.getElementById('quadroMsg').textContent=(Q.art===-1?`Oi, mira! Quero um quadro feito à mão a partir de uma imagem minha`:`Oi, mira! Quero um quadro no estilo "${name}"`)+
+    `, ${SIZES[Q.size][0]} × ${SIZES[Q.size][1]} cm, ${Q.orient}, ${frameName(Q.frame)}.\nMinha parede é ${WALLS[Q.wall][0].toLowerCase()}.`+(Q.art===-1?`\nVou mandar a imagem aqui na conversa.`:'');
+  document.getElementById('waQuadro').href=waLink(document.getElementById('quadroMsg').textContent)}
+function sizeRoom(){const w=room.clientWidth;if(w)room.style.setProperty('--cm',(w/260)+'px')}
+new ResizeObserver(sizeRoom).observe(room);
+
+/* ---------- copy ---------- */
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const el=document.getElementById(b.dataset.copy);const toast=b.closest('.order').querySelector('.toast');
+  const done=()=>{toast.textContent='Texto copiado.'};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);toast.textContent='Texto selecionado. Copie com Ctrl+C ou segure para copiar.'};
+  try{navigator.clipboard.writeText(el.textContent).then(done,fallback)}catch(e){fallback()}}));
+
+/* ---------- ímãs já produzidos (fotos reais entram aqui) ---------- */
+renderAll();renderQuadro();sizeRoom();
+})();
+</script>
+
+</body>
+</html>
